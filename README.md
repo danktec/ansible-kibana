@@ -1,18 +1,15 @@
-# Ansible Logstash Role
+# Ansible Elasticsearch Role
 
 ## What it does
-Installs java, logstash and installs configs
+Installs java, Elasticsearch and installs configs
 
 ## Usage
 Install in roles and call from playbook with:
 
 ```
-- hosts: logstash_servers
+- hosts: elasticsearch_servers
   roles:
-   - logstash
+   - elasticsearch
 ```
 
 ## Notes
-Add as many logstash configs as you need in files/ and refrence them in tasks/main.yml
-
-iptables task will insert a rule to allow ingress for external logstash inputs
