@@ -1,2 +1,2 @@
-- name: restart elasticsearch
-  service: name=elasticsearch state=restarted enabled=yes
+- name: restart kibana
+  service: name=kibana state=restarted enabled=yes

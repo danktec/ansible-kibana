@@ -1,15 +1,20 @@
-# Ansible Elasticsearch Role
+# Ansible Kibana Role
 
 ## What it does
-Installs java, Elasticsearch and installs configs
+Installs Kibana and config
 
 ## Usage
 Install in roles and call from playbook with:
 
 ```
-- hosts: elasticsearch_servers
+- hosts: kibana_servers
   roles:
-   - elasticsearch
+   - kibana
 ```
 
 ## Notes
+uses its own embedded version of node.
+
+prereqs include:
+libstdc++.i686
+glibc.i686 

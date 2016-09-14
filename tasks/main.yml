@@ -1,32 +1,29 @@
 ---
-- name: Copy the EPEL repository definition
-  copy: src=elasticsearch.repo dest=/etc/yum.repos.d/elasticsearch.repo
+- stat: path=/opt/kibana/bin/kibana
+  register: kibana_install
 
-- name: Install Java
-  yum: name=java state=latest
-
-- name: Install Elasticsearch
-  yum: name=elasticsearch state=present
-
-#- name: Install Config
-#  copy: src=00-input.conf dest=/etc/logstash/conf.d/00-input.conf
-#  notify: restart logstash
-
-- name: Start Elasticsearch
-  service: name=elasticsearch state=started  
+- name: Download and install the RPM
+  yum: name=https://download.elastic.co/kibana/kibana/kibana-4.6.1-x86_64.rpm state=present
+  notify: restart kibana
+  when:
+    - kibana_install.stat.exists == False
 
 - name: Set to autostart
-  shell: chkconfig --add elasticsearch
+  shell: chkconfig --add kibana
 
-#- name: Allow incoming connections
-#  iptables: chain=INPUT
-#            action=insert
-#            source=0.0.0.0/0
-#            protocol=tcp 
-#            match=tcp 
-#            state=present 
-#            ctstate=NEW 
-#            destination_port=3000
-#            jump=ACCEPT 
- 
+- name: Install Deps
+  yum: name={{ item }} state=present
+  with_items:
+  - libstdc++
+  - glibc
 
+- name: Allow incoming connections
+  iptables: chain=INPUT
+            action=insert
+            source=0.0.0.0/0
+            protocol=tcp
+            match=tcp
+            state=present
+            ctstate=NEW
+            destination_port=5601
+            jump=ACCEPT
