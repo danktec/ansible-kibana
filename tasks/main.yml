@@ -8,6 +8,9 @@
   when:
     - kibana_install.stat.exists == False
 
+- name: Start Kibana
+  service: name=kibana state=restarted enabled=yes
+
 - name: Set to autostart
   shell: chkconfig --add kibana
 
