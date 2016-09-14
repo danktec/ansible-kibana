@@ -12,6 +12,9 @@
 #  copy: src=00-input.conf dest=/etc/logstash/conf.d/00-input.conf
 #  notify: restart logstash
 
+- name: Start Elasticsearch
+  service: name=elasticsearch state=started  
+
 - name: Set to autostart
   shell: chkconfig --add elasticsearch
 
